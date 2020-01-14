@@ -5,6 +5,7 @@ def call() {
       stage('Build'){
         steps {
           echo 'This is Build stage'
+          echo "This is param ${params.myParameterName}"
         }
       }
       stage('Deploy'){
