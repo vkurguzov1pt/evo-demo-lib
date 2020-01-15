@@ -11,6 +11,7 @@ def call() {
       stage('Deploy'){
         steps {
           echo 'This is Deploy stage'
+          sh 'ls -la'
         }
       }
     }
