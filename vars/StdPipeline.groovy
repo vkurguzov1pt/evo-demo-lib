@@ -5,6 +5,16 @@ def call() {
       stage('Build'){
         steps {
           echo 'This is Build stage'
+          echo 'Compile app'
+          sh '''
+            docker run --rm --memory="300m" --memory-swap="300m" -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.8 go build -v
+          '''
+          echo 'Build app' 
+          {
+            env.tag = input message: 'Set tag for the build',ok : 'Set', id :'app_id',
+            parameters:[text('appTag','','')]
+          }
+          sh "docker build -t ${env.tag} ."
         }
       }
       stage('Deploy'){
@@ -16,6 +26,7 @@ def call() {
             parameters:[choice(choices: stages, description: '', name: 'stage')]
           }
           echo "Deploying to ${env.stage}"
+          sh "docker run --rm --name demo-app -p${params.appPort}:8081 ${env.tag}"
         }
       }
     }
