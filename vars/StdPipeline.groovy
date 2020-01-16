@@ -7,7 +7,7 @@ def call() {
           echo 'This is Build stage'
           echo 'Compile app'
           sh '''
-            docker run --rm --memory="300m" --memory-swap="300m" -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.8 go build -v
+            docker run --rm -v $HOST_HOME/$JOB_NAME:/usr/src/myapp -w /usr/src/myapp golang:1.8 go build -v
           '''
           echo 'Build app' 
           script {
