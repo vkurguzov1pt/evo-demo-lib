@@ -12,7 +12,7 @@ def call() {
           echo 'Build app' 
           script {
             env.tag = input message: 'Set tag for the build',ok : 'Set', id :'app_id',
-            parameters:[text('appTag','','')]
+            parameters:[string(name: 'appTag', description: '','')]
           }
           sh "docker build -t ${env.tag} ."
         }
