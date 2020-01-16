@@ -10,7 +10,7 @@ def call() {
             docker run --rm --memory="300m" --memory-swap="300m" -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.8 go build -v
           '''
           echo 'Build app' 
-          {
+          script {
             env.tag = input message: 'Set tag for the build',ok : 'Set', id :'app_id',
             parameters:[text('appTag','','')]
           }
