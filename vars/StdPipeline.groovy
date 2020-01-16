@@ -28,6 +28,17 @@ def call() {
           }
           echo "Deploying to ${env.stage}"
           sh "docker run --rm --name demo-app -p${params.appPort}:8081 ${env.tag}"
+
+          script {
+            yesorno = ["yes","no"]
+            env.finish = input  message: 'Choose yes if you want to stop build',ok : 'Stop',id :'isfinished',
+            parameters:[choice(choices: yesorno, description: '', name: 'stopbuild')]
+
+            if(env.finish == "yes"){
+              sh  "docker stop ${env.tag}"
+              currentBuild.result = 'SUCCESS'
+            }
+          }
         }
       }
     }
