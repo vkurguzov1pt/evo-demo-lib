@@ -27,7 +27,7 @@ def call() {
             parameters:[choice(choices: stages, description: '', name: 'stage')]
           }
           echo "Deploying to ${env.stage}"
-          sh "docker run --rm -d --name demo-app -p${params.appPort}:8081 ${env.tag}"
+          sh "docker run --rm -d --name ${env.tag}-${env.stage} -p${params.appPort}:8081 ${env.tag}"
 
           script {
             yesorno = ["yes","no"]
@@ -35,7 +35,7 @@ def call() {
             parameters:[choice(choices: yesorno, description: '', name: 'stopbuild')]
 
             if(env.finish == "yes"){
-              sh  "docker stop ${env.tag}"
+              sh  "docker stop ${env.tag}-${env.stage}"
               currentBuild.result = 'SUCCESS'
             }
           }
