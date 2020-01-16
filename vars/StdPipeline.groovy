@@ -27,7 +27,7 @@ def call() {
             parameters:[choice(choices: stages, description: '', name: 'stage')]
           }
           echo "Deploying to ${env.stage}"
-          sh "docker run --rm --name demo-app -p${params.appPort}:8081 ${env.tag}"
+          sh "docker run --rm -d --name demo-app -p${params.appPort}:8081 ${env.tag}"
 
           script {
             yesorno = ["yes","no"]
